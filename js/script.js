@@ -72,7 +72,7 @@ const data = [
     ['#3 Верстка на flexbox CSS | Блок преимущества и галерея | Марафон верстки | Артема Исламова',
         '#2 Установка spimki  и работа с ветками на Github | Марафон вёрстки Урок 2 ',
         '#1 Верстка реального заказа landing Page | Марафон верстки | Артема Исламова'],
-     ['3,4 тысю просмотров', '4,2 тыс.просмторов', '28 тыс.просмотров'],
+     ['3,4 тыс. просмотров', '4,2 тыс.просмторов', '28 тыс.просмотров'],
      ['X9SmcY3lm-U', '7BvHoh08rMw','mC8JW_aG2EM']
 ];
 
@@ -97,5 +97,70 @@ more.addEventListener('click', () => {
         setTimeout(() => {
             card.classList.remove('videos__item-active');
         },50);
+            bindNewModal(card);
+
+    }
+
+    sliceTitle('.videos__item-descr', 100);
+});
+//фунция обрезания текста под видео 100 символов+ ...
+function sliceTitle(selector, count) {
+    document.querySelectorAll(selector).forEach(item => {
+        item.textContent.trim();
+
+        if (item.textContent.lenght < count){
+            return;
+        } else {
+            const str = item.textContent.slice(0, count +1 ) + "...";
+            item.textContent = str;
+        }
+    });
+}
+sliceTitle('.videos__item-descr', 100);
+
+
+//модальное окно при нажатии на видео
+function openModal(){
+    modal.style.display = 'block';
+}
+
+function closeModal(){
+    modal.style.display = 'none';
+}
+//открываем модальное окно при клике
+function bindModal(cards){
+    cards.forEach(item => {
+        item.addEventListener('click', (e) => {
+           e.preventDefault();                  //отменяет стандартное поведение браузера
+            openModal();
+        });
+    });
+}
+bindModal(videos);
+
+function bindNewModal(cards) {                  //получаем карточку
+    cards.addEventListener('click', (e) => {    // вешаем на неё клик
+        e.preventDefault();                     //отменяет стандартное поведение браузера
+         openModal();
+     });  
+}
+//закрывает модал окно вне нажатия на него
+modal.addEventListener('click', (e)=>{
+    if (!e.target.classList.contains('modal__body')) {
+        closeModal();
     }
 });
+
+function createVideo(){
+    // 2. This code loads the IFrame Player API code asynchronously.
+    //загрузка видео с ютуба
+    let tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    let firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+};
+
+
+
+
